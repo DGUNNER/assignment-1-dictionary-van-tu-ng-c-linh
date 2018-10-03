@@ -24,17 +24,20 @@ public class DictionaryCommandline {
         dictionaryCommandline.dictionaryAdvanced();
         dictionaryCommandline.dictionarySearches();
     }
+
     public void dictionaryBasic(){
 
         dictionary.insertFromCommandline();
         showAllWords();
     }
+
     public void dictionaryAdvanced() {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
         showAllWords();
         dictionaryManagement.DictionaryLockup();
     }
+    //Tim kiem cac tu theo cac ki tu dau
     public void dictionarySearches(){
         String search ;
         Scanner scanner = new Scanner(System.in);
@@ -43,7 +46,7 @@ public class DictionaryCommandline {
         for(int i = 0; i < dictionary.wordList.size(); i++){
             if(dictionary.wordList.get(i).getWord_target().indexOf(search) == 0){
 
-                dictionary.wordList.get(i).showData();
+                System.out.print(dictionary.wordList.get(i).getData());
             }
         }
     }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class DictionaryCommandline {
@@ -22,7 +23,7 @@ public class DictionaryCommandline {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
         dictionaryCommandline.dictionaryBasic();
         dictionaryCommandline.dictionaryAdvanced();
@@ -35,7 +36,7 @@ public class DictionaryCommandline {
         showAllWords();
     }
 
-    public void dictionaryAdvanced() {
+    public void dictionaryAdvanced() throws IOException {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
         showAllWords();

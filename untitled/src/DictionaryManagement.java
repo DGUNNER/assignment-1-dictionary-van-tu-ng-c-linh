@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import com.darkprograms.speech.translator.GoogleTranslate;
+
 
 public class DictionaryManagement {
     //private static final String fileDictionary = "Dictionary.txt";
@@ -14,35 +16,29 @@ public class DictionaryManagement {
     }
 
     //Doc File
-    public void insertFromFile(){
+    public void insertFromFile() throws IOException {
 
         //Dictionary dictionary = new Dictionary();
-        File file  = new File("D:\\dictionary.txt");
-        try
-        {
-            int i = 0;
-            Scanner scanner = new Scanner(file);
-            while(scanner.hasNextLine())
-            {
 
-                String data = scanner.nextLine();
+        try {
+
+            FileReader reader = new FileReader("D:\\dictionary.txt");
+            BufferedReader read = new BufferedReader(reader);
+            String data;
+            while ((data = read.readLine()) != null) {
                 System.out.println(data);
                 int index = data.indexOf("\t");
+                dictionary.wordList.add(new Word(data.substring(0, index), data.substring(index + 1, data.length())));
 
+            }
+            read.close();
+        }catch (IOException e)
+        {
+            System.out.println(e);
+        }
 //                dictionary.wordList.get(i).setWord_target(data.substring(0,index));
 
-               dictionary.wordList.add(new Word(data.substring(0,index),data.substring(index+1,data.length())));
-
-                i++;
-            }
-            scanner.close();
-        }
-        catch(FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-
+               //dictionary.wordList.add(new Word(data.substring(0,index),data.substring(index+1,data.length())));
     }
     //Tra cuu tu dien
     public void DictionaryLockup()
@@ -96,13 +92,28 @@ public class DictionaryManagement {
         }
 
     }
-    //Them word vap dictionary
+    //Them word vao dictionary
     public void addWord(String anh, String viet){
         dictionary.wordList.add(new Word(anh,viet));
     }
 
     //Ghi Dictionary vao File
     public void dictionaryExportToFile(){
+        try {
+            FileWriter fileWriter = new FileWriter("D:\\dictionary.txt");
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            for(int i = 0; i < dictionary.wordList.size(); i++)
+            {
+                printWriter.println(dictionary.wordList.get(i).getData());
+            }
+            printWriter.close();
+
+        }catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
+        /*
         try {
             int i = 0;
             FileWriter fw = new FileWriter("D:\\dictionary.txt");
@@ -116,17 +127,29 @@ public class DictionaryManagement {
             System.out.println(e);
         }
         System.out.println("Success...");
+        */
 
     }
+    void translate() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhập từ cần tra nghĩa:");
+        String wordEnglish = scanner.nextLine();
+        String wordVietNam =TranslateByVietNam(wordEnglish);
+        addWord(wordEnglish,wordVietNam);
+        System.out.println(wordVietNam);
+    }
 
-    public static void main(String[] args) {
+    static String TranslateByVietNam( String inLanguge) throws IOException {
+        return GoogleTranslate.translate("vi", inLanguge);
+    }
+
+    public static void main(String[] args) throws IOException {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
-
-        //dictionaryManagement.dictionaryCommandline.setDictionary(dictionaryManagement.getDictionary());
         dictionaryManagement.dictionaryCommandline.showAllWords();
+        dictionaryManagement.translate();
         dictionaryManagement.DictionaryLockup();
-        dictionaryManagement.addWord("bye","Tam biet");
+        //dictionaryManagement.addWord("bye","Tam biet");
         dictionaryManagement.dictionaryCommandline.showAllWords();
         dictionaryManagement.dictionaryExportToFile();
     }

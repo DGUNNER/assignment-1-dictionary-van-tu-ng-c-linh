@@ -5,9 +5,13 @@ public class DictionaryCommandline {
 
     private Dictionary dictionary  = new Dictionary();
 
-   public void setDictionary(Dictionary d)
+   public Dictionary getDictionary()
    {
-       dictionary = d;
+       if(dictionary ==null)
+       {
+           dictionary = new Dictionary();
+       }
+       return dictionary;
    }
 
     public void showAllWords(){

@@ -4,8 +4,9 @@ import java.io.FileNotFoundException;
 
 public class DictionaryManagement {
     //private static final String fileDictionary = "Dictionary.txt";
-    Dictionary dictionary = new Dictionary();
+
     DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
+    Dictionary dictionary  = dictionaryCommandline.getDictionary();
 
     public Dictionary getDictionary()
     {
@@ -16,7 +17,7 @@ public class DictionaryManagement {
     public void insertFromFile(){
 
         //Dictionary dictionary = new Dictionary();
-        File file  = new File("E:\\dictionnary.txt");
+        File file  = new File("D:\\dictionary.txt");
         try
         {
             int i = 0;
@@ -25,7 +26,9 @@ public class DictionaryManagement {
             {
 
                 String data = scanner.nextLine();
+                System.out.println(data);
                 int index = data.indexOf("\t");
+
 //                dictionary.wordList.get(i).setWord_target(data.substring(0,index));
 
                dictionary.wordList.add(new Word(data.substring(0,index),data.substring(index+1,data.length())));
@@ -44,16 +47,23 @@ public class DictionaryManagement {
     //Tra cuu tu dien
     public void DictionaryLockup()
     {
+        boolean isfound =false;
         String search ;
         Scanner scanner = new Scanner(System.in);
         System.out.println("nhap tu can tim kiem :");
         search = scanner.nextLine();
+        System.out.println(search);
         for(int i =0; i< dictionary.wordList.size(); i++)
         {
-            if(search.equals(dictionary.wordList.get(i).getWord_target()))
+            if(dictionary.wordList.get(i).getWord_target().indexOf(search)==0)
             {
-                System.out.println(dictionary.wordList.get(i).getWord_explain());
+                isfound = true;
+                System.out.println(dictionary.wordList.get(i).getData());
             }
+        }
+        if(isfound==false)
+        {
+            System.out.println("khong tin thay!!");
         }
     }
     //Sua word
@@ -95,11 +105,13 @@ public class DictionaryManagement {
     public void dictionaryExportToFile(){
         try {
             int i = 0;
-            FileWriter fw = new FileWriter("E:\\dictionary.txt");
+            FileWriter fw = new FileWriter("D:\\dictionary.txt");
             while (i < dictionary.wordList.size()) {
                 fw.write(dictionary.wordList.get(i).getData());
-                fw.close();
+                //System.out.println(dictionary.wordList.get(i).getData());
+                i++;
             }
+            fw.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -111,10 +123,11 @@ public class DictionaryManagement {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
 
-        dictionaryManagement.dictionaryCommandline.setDictionary(dictionaryManagement.getDictionary());
+        //dictionaryManagement.dictionaryCommandline.setDictionary(dictionaryManagement.getDictionary());
         dictionaryManagement.dictionaryCommandline.showAllWords();
         dictionaryManagement.DictionaryLockup();
         dictionaryManagement.addWord("bye","Tam biet");
+        dictionaryManagement.dictionaryCommandline.showAllWords();
         dictionaryManagement.dictionaryExportToFile();
     }
 

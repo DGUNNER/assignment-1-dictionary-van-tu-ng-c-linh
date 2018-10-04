@@ -1,3 +1,6 @@
+car	ô tô
+book	sách
 hello	xin chào
 sorry	lấy làm tiếc
 high	cao
+game	trò chơi

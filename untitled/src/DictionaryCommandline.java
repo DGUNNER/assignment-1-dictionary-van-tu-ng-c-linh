@@ -1,19 +1,12 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-public class DictionaryCommandline {
+public class DictionaryCommandline extends DictionaryManagement{
     //DictionaryManagement dictionaryManagement = new DictionaryManagement();
 
-    private Dictionary dictionary  = new Dictionary();
+    //private Dictionary dictionary  = new Dictionary();
 
-   public Dictionary getDictionary()
-   {
-       if(dictionary ==null)
-       {
-           dictionary = new Dictionary();
-       }
-       return dictionary;
-   }
+
 
     public void showAllWords(){
         System.out.println("NO\t\t\t|\t\tENGLISH\t\t\t\t\t|\t\t\tVIETNAMESE");
@@ -23,19 +16,17 @@ public class DictionaryCommandline {
         }
     }
 
-
-
     public void dictionaryBasic(){
 
-        dictionary.insertFromCommandline();
+        insertFromCommandline();
         showAllWords();
     }
 
     public void dictionaryAdvanced() throws IOException {
-        DictionaryManagement dictionaryManagement = new DictionaryManagement();
-        dictionaryManagement.insertFromFile();
+
+        insertFromFile();
         showAllWords();
-        dictionaryManagement.DictionaryLockup();
+        DictionaryLockup();
     }
     //Tim kiem cac tu theo cac ki tu dau
     public void dictionarySearches(){
@@ -46,15 +37,17 @@ public class DictionaryCommandline {
         for(int i = 0; i < dictionary.wordList.size(); i++){
             if(dictionary.wordList.get(i).getWord_target().indexOf(search) == 0){
 
-                System.out.print(dictionary.wordList.get(i).getData());
+                System.out.println(dictionary.wordList.get(i).getData());
             }
         }
     }
     public static void main(String[] args) throws IOException {
         DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
+        //dictionaryCommandline.insertFromFile();
         dictionaryCommandline.dictionaryBasic();
         dictionaryCommandline.dictionaryAdvanced();
         dictionaryCommandline.dictionarySearches();
+        dictionaryCommandline.dictionaryExportToFile();
     }
 
 }

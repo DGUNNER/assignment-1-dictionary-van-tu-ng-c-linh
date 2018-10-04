@@ -1,20 +1,31 @@
 import java.io.*;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 import com.darkprograms.speech.translator.GoogleTranslate;
 
 
 public class DictionaryManagement {
     //private static final String fileDictionary = "Dictionary.txt";
 
-    DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
-    Dictionary dictionary  = dictionaryCommandline.getDictionary();
-    final  String path = "data/dictionary.txt";
-    public Dictionary getDictionary()
-    {
-        return dictionary;
-    }
 
+    protected Dictionary dictionary  = new Dictionary();
+    final  String path = "data/dictionary.txt";
+
+    public void  insertFromCommandline()
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhap so luong tu :");
+        int  n = scanner.nextInt();
+        scanner.nextLine();
+        for(int i = 0;  i < n; i++){
+            System.out.println("Nhap tu: ");
+
+            String wordtarget = scanner.nextLine();
+            System.out.println("Nhap nghia: ");
+            String wordexplain = scanner.nextLine();
+            dictionary.wordList.add(new Word(wordtarget,wordexplain));
+        }
+
+    }
     //Doc File
     public  void insertFromFile() throws IOException {
 
@@ -26,7 +37,7 @@ public class DictionaryManagement {
             BufferedReader read = new BufferedReader(reader);
             String data;
             while ((data = read.readLine()) != null) {
-                System.out.println(data);
+                //System.out.println(data);
                 int index = data.indexOf("\t");
                 dictionary.wordList.add(new Word(data.substring(0, index), data.substring(index + 1, data.length())));
 
@@ -48,10 +59,10 @@ public class DictionaryManagement {
         Scanner scanner = new Scanner(System.in);
         System.out.println("nhap tu can tim kiem :");
         search = scanner.nextLine();
-        System.out.println(search);
+        //System.out.println(search);
         for(int i =0; i< dictionary.wordList.size(); i++)
         {
-            if(dictionary.wordList.get(i).getWord_target().indexOf(search)==0)
+            if(dictionary.wordList.get(i).getWord_target().equals(search))
             {
                 isfound = true;
                 System.out.println(dictionary.wordList.get(i).getData());
@@ -146,11 +157,9 @@ public class DictionaryManagement {
     public static void main(String[] args) throws IOException {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
-        dictionaryManagement.dictionaryCommandline.showAllWords();
         dictionaryManagement.translate();
         dictionaryManagement.DictionaryLockup();
         //dictionaryManagement.addWord("bye","Tam biet");
-        dictionaryManagement.dictionaryCommandline.showAllWords();
         dictionaryManagement.dictionaryExportToFile();
     }
 

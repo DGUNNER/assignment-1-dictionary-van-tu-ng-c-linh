@@ -1,2 +1,3 @@
-hello   xin chao
-sorry   xin loi
+hello	xin chào
+sorry	lấy làm tiếc
+high	cao

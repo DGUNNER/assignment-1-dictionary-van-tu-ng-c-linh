@@ -23,12 +23,7 @@ public class DictionaryCommandline {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
-        dictionaryCommandline.dictionaryBasic();
-        dictionaryCommandline.dictionaryAdvanced();
-        dictionaryCommandline.dictionarySearches();
-    }
+
 
     public void dictionaryBasic(){
 
@@ -55,6 +50,11 @@ public class DictionaryCommandline {
             }
         }
     }
-
+    public static void main(String[] args) throws IOException {
+        DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
+        dictionaryCommandline.dictionaryBasic();
+        dictionaryCommandline.dictionaryAdvanced();
+        dictionaryCommandline.dictionarySearches();
+    }
 
 }

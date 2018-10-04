@@ -9,20 +9,20 @@ public class DictionaryManagement {
 
     DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
     Dictionary dictionary  = dictionaryCommandline.getDictionary();
-
+    final  String path = "data/dictionary.txt";
     public Dictionary getDictionary()
     {
         return dictionary;
     }
 
     //Doc File
-    public void insertFromFile() throws IOException {
+    public  void insertFromFile() throws IOException {
 
         //Dictionary dictionary = new Dictionary();
 
         try {
 
-            FileReader reader = new FileReader("D:\\dictionary.txt");
+            FileReader reader = new FileReader(path);
             BufferedReader read = new BufferedReader(reader);
             String data;
             while ((data = read.readLine()) != null) {
@@ -100,7 +100,7 @@ public class DictionaryManagement {
     //Ghi Dictionary vao File
     public void dictionaryExportToFile(){
         try {
-            FileWriter fileWriter = new FileWriter("D:\\dictionary.txt");
+            FileWriter fileWriter = new FileWriter(path);
             PrintWriter printWriter = new PrintWriter(fileWriter);
             for(int i = 0; i < dictionary.wordList.size(); i++)
             {

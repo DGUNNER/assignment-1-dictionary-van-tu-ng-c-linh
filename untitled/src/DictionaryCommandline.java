@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-public class DictionaryCommandline {
+public class DictionaryCommandline extends DictionaryManagement{
     //DictionaryManagement dictionaryManagement = new DictionaryManagement();
 
-    private Dictionary dictionary  = new Dictionary();
+    //private Dictionary dictionary  = new Dictionary();
 
+
+<<<<<<< HEAD
    public Dictionary getDictionary()
    {
        if(dictionary ==null)
@@ -14,6 +16,8 @@ public class DictionaryCommandline {
        }
        return dictionary;
    }
+=======
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
 
     public void showAllWords(){
         System.out.println("NO\t\t\t|\t\tENGLISH\t\t\t\t\t|\t\t\tVIETNAMESE");
@@ -23,19 +27,29 @@ public class DictionaryCommandline {
         }
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
     public void dictionaryBasic(){
 
-        dictionary.insertFromCommandline();
+        insertFromCommandline();
         showAllWords();
     }
 
     public void dictionaryAdvanced() throws IOException {
+<<<<<<< HEAD
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
         showAllWords();
         dictionaryManagement.dictionaryLookup();
+=======
+
+        insertFromFile();
+        showAllWords();
+        DictionaryLockup();
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
     }
     //Tim kiem cac tu theo cac ki tu dau
     public void dictionarySearches(){
@@ -46,15 +60,23 @@ public class DictionaryCommandline {
         for(int i = 0; i < dictionary.wordList.size(); i++){
             if(dictionary.wordList.get(i).getWord_target().indexOf(search) == 0){
 
-                System.out.print(dictionary.wordList.get(i).getData());
+                System.out.println(dictionary.wordList.get(i).getData());
             }
         }
     }
     public static void main(String[] args) throws IOException {
         DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
+<<<<<<< HEAD
         dictionaryCommandline.dictionaryBasic();
         dictionaryCommandline.dictionaryAdvanced();
         dictionaryCommandline.dictionarySearches();
+=======
+        //dictionaryCommandline.insertFromFile();
+        dictionaryCommandline.dictionaryBasic();
+        dictionaryCommandline.dictionaryAdvanced();
+        dictionaryCommandline.dictionarySearches();
+        dictionaryCommandline.dictionaryExportToFile();
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
     }
 
 }

@@ -1,21 +1,44 @@
 import java.io.*;
 import java.util.Scanner;
+<<<<<<< HEAD
 import java.io.FileNotFoundException;
 //import com.darkprograms.speech.translator.GoogleTranslate;
+=======
+import com.darkprograms.speech.translator.GoogleTranslate;
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
 
 
 public class DictionaryManagement {
     static Scanner scanner = new Scanner(System.in);
     //private static final String fileDictionary = "Dictionary.txt";
 
+<<<<<<< HEAD
     DictionaryCommandline dictionaryCommandline = new DictionaryCommandline();
     Dictionary dictionary  = dictionaryCommandline.getDictionary();
     final  String path = "data/dictionary.txt";
     public Dictionary getDictionary()
-    {
-        return dictionary;
-    }
+=======
 
+    protected Dictionary dictionary  = new Dictionary();
+    final  String path = "data/dictionary.txt";
+
+    public void  insertFromCommandline()
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhap so luong tu :");
+        int  n = scanner.nextInt();
+        scanner.nextLine();
+        for(int i = 0;  i < n; i++){
+            System.out.println("Nhap tu: ");
+
+            String wordtarget = scanner.nextLine();
+            System.out.println("Nhap nghia: ");
+            String wordexplain = scanner.nextLine();
+            dictionary.wordList.add(new Word(wordtarget,wordexplain));
+        }
+
+    }
     //Doc File
     public  void insertFromFile() throws IOException {
 
@@ -45,6 +68,7 @@ public class DictionaryManagement {
     public void dictionaryLookup()
     {
         boolean isfound =false;
+<<<<<<< HEAD
         scanner.nextLine();
         System.out.println("nhap tu can tim kiem :");
         String search = scanner.nextLine();
@@ -52,6 +76,16 @@ public class DictionaryManagement {
         for(int i =0; i< dictionary.wordList.size(); i++)
         {
             if(dictionary.wordList.get(i).getWord_target().indexOf(search)==0)
+=======
+        String search ;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhap tu can tim kiem :");
+        search = scanner.nextLine();
+        //System.out.println(search);
+        for(int i =0; i< dictionary.wordList.size(); i++)
+        {
+            if(dictionary.wordList.get(i).getWord_target().equals(search))
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
             {
                 isfound = true;
                 System.out.println(dictionary.wordList.get(i).getData());
@@ -136,6 +170,7 @@ public class DictionaryManagement {
         */
 
     }
+<<<<<<< HEAD
 //    void translate() throws IOException {
 //        Scanner scanner = new Scanner(System.in);
 //        System.out.println("nhập từ cần tra nghĩa:");
@@ -148,10 +183,25 @@ public class DictionaryManagement {
 //    static String TranslateByVietNam( String inLanguge) throws IOException {
 //        return GoogleTranslate.translate("vi", inLanguge);
 //    }
+=======
+    void translate() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nhập từ cần tra nghĩa:");
+        String wordEnglish = scanner.nextLine();
+        String wordVietNam =TranslateByVietNam(wordEnglish);
+        addWord(wordEnglish,wordVietNam);
+        System.out.println(wordVietNam);
+    }
+
+    static String TranslateByVietNam( String inLanguge) throws IOException {
+        return GoogleTranslate.translate("vi", inLanguge);
+    }
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
 
     public static void main(String[] args) throws IOException {
         DictionaryManagement dictionaryManagement = new DictionaryManagement();
         dictionaryManagement.insertFromFile();
+<<<<<<< HEAD
         int choose ;
         do{
             System.out.println("Choose 0: Exit\nChoose 1: See dictionary" +
@@ -187,6 +237,12 @@ public class DictionaryManagement {
         dictionaryManagement.dictionaryCommandline.showAllWords();
 
 
+=======
+        dictionaryManagement.translate();
+        dictionaryManagement.DictionaryLockup();
+        //dictionaryManagement.addWord("bye","Tam biet");
+        dictionaryManagement.dictionaryExportToFile();
+>>>>>>> 1478d69f7cb863bdd89f7c00d0b8c95b7220c926
     }
 
 }

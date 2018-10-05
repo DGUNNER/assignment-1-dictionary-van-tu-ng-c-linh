@@ -1,0 +1,6 @@
+bye	tạm biệt
+bye	tạm biệt
+bye	tạm biệt
+sorry	xin loi
+hi	xin chao
+hello	xin chao

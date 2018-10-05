@@ -26,6 +26,6 @@ public class Word {
 //        System.out.println(word_target+"    "+word_explain);
 
     public String getData(){
-        return word_target+"    "+word_explain +"\n";
+        return word_target+"\t"+word_explain ;
     }
 }

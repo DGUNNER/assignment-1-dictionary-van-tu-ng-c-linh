@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package view.Card;
-import Model.FavoritesWordList;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

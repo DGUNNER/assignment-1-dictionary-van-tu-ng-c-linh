@@ -11,6 +11,7 @@ import view.search.CollectionResult;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 
 /**
@@ -20,7 +21,7 @@ import javax.swing.JPanel;
 public class ContentAreaMenuMain extends JPanel{
      private static ContentAreaMenuMain instance = null;
 
-    public static ContentAreaMenuMain getInstance() throws IOException {
+    public static ContentAreaMenuMain getInstance() throws SQLException {
         if (instance == null) {
             instance = new ContentAreaMenuMain();
             return instance;
@@ -28,8 +29,7 @@ public class ContentAreaMenuMain extends JPanel{
         return instance;
     }
 
-    protected ContentAreaMenuMain() throws IOException 
-    {   
+    protected ContentAreaMenuMain() throws SQLException {
         setBackground(Color.WHITE);
         setLayout(new CardLayout());
         //add(new JButton("sasas"));
@@ -39,5 +39,6 @@ public class ContentAreaMenuMain extends JPanel{
         add(view.learn.LearnContent.getInstance(),"learn");
         add(view.exam.ExamContent.getInstance(),"exam");
         add(CollectionResult.getInstance(),"result");
+        add(ExplanWord.getInstance(),"explan");
     }
 }

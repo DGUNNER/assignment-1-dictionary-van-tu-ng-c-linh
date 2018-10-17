@@ -8,15 +8,12 @@ package view.learn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import Model.FavoritesWordList;
+
 import view.search.BtnNone;
 
 /**
@@ -74,7 +71,7 @@ public class LearnWord extends JPanel implements ActionListener{
     }
     public  void loopLearn()
     {
-        if(index < FavoritesWordList.getInstance().size())
+        /*if(index < FavoritesWordList.getInstance().size())
         {
             System.out.println(index);
             Card.getInstance().setEng(FavoritesWordList.getInstance().get(index).getWord_target());
@@ -83,7 +80,7 @@ public class LearnWord extends JPanel implements ActionListener{
             Card.getInstance().LoadDataItem();
             Card.getInstance().showBtnEng();
             Card.getInstance().repaint();
-        }
+        }*/
     }
     public void EndLearn()
     {
@@ -107,12 +104,12 @@ public class LearnWord extends JPanel implements ActionListener{
             }
         }else if(cmd.equals("right"))
         {
-            if(index <FavoritesWordList.getInstance().size()-1)
+            /*if(index <FavoritesWordList.getInstance().size()-1)
             {
                 index++;
                 loopLearn();
             }
-            else  if (index == FavoritesWordList.getInstance().size()-1) EndLearn();
+            else  if (index == FavoritesWordList.getInstance().size()-1) EndLearn();*/
         }
     }
 }

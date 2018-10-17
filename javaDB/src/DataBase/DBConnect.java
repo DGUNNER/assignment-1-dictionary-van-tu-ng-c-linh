@@ -1,7 +1,19 @@
 package DataBase;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBConnect {
+    private static DBConnect instance =null;
+    public static DBConnect getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new DBConnect("eng-viet_dictionary");
+            return instance;
+        }else
+            return instance;
+    }
+
     private Connection con;
     private Statement st;
     private PreparedStatement preSt;
@@ -26,6 +38,23 @@ public class DBConnect {
         if(con!=null) con.close();
     }
 
+    public ArrayList<String> Lookup(String words) throws SQLException {
+        ArrayList<String> WordLookup = new ArrayList<>(30);
+        String query = "SELECT word FROM tbl_edict Where word like '"+words+"%'";
+        preSt = con.prepareStatement(query);
+        //  preSt.setString('2',words);
+        rs = preSt.executeQuery();
+        int i = 0;
+        while (rs.next()){
+            if(i >= 30) break;
+            WordLookup.add(rs.getString("word"));
+            i++;
+        }
+        //db.deletetb2(words);
+        return WordLookup;
+    }
+
+
     public void insertData(String query) throws SQLException {
 
         preSt = con.prepareStatement(query);
@@ -42,6 +71,7 @@ public class DBConnect {
     public void deleteData(String query) throws SQLException {
         preSt = con.prepareStatement(query);
         preSt.execute();
+        preSt.close();
     }
 
     public ResultSet getData(String query)

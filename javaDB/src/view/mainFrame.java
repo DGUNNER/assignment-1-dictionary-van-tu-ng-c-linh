@@ -6,6 +6,7 @@
 package view;
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -22,8 +23,7 @@ public class mainFrame extends JFrame{
     final String RIGHT = BorderLayout.LINE_END;
     
     private static mainFrame instance = null;
-    public static mainFrame getInstance() throws IOException
-    {
+    public static mainFrame getInstance() throws IOException, SQLException {
         if(instance == null)
         {
             instance = new mainFrame();
@@ -31,17 +31,14 @@ public class mainFrame extends JFrame{
         }else 
             return instance;
     }
-    private mainFrame(String title) throws IOException
-    {
+    private mainFrame(String title) throws IOException, SQLException {
         super(title);
         init();
     }
-    private mainFrame() throws IOException
-    {
+    private mainFrame() throws IOException, SQLException {
         init();
     }
-    private void init() throws IOException
-    {
+    private void init() throws IOException, SQLException {
         setSize(900, 650);
         //setUndecorated(true);
         setResizable(false);

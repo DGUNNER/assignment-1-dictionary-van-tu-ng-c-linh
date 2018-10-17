@@ -1,22 +1,25 @@
 package Controller;
 
 
-import java.awt.CardLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Model.ArrayResult;
-import Model.Dictionary;
-import Model.FavoritesWordList;
-import Model.Word;
-import view.Card.ListCard;
-import view.MessgeEditAndFavorites;
+
+import DataBase.DBConnect;
+import view.ExplanWord;
 import view.TopBar;
+import view.mainFrame;
 import view.search.CollectionContent;
 import view.search.CollectionResult;
+import view.search.WordItem;
+
+import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,6 +42,7 @@ public class Controller implements ActionListener{
         }
         else return instance;
     }
+    JPopupMenu menu = new JPopupMenu();
     protected Controller()
     {
         init();
@@ -54,62 +58,119 @@ public class Controller implements ActionListener{
 
         String command = e.getActionCommand();
         if (command.equals("btnSearch")) {
-            try {
-                ArrayResult.getInstance().setData(TopBar.getInstance().textBox.getText());
-                ArrayResult.getInstance().kq();
+            String dataInput = TopBar.getInstance().textBox.getText();
 
+            try {
+                if (dataInput.length() > 0) {
+                    String dataOutput = ControllerDB.getInstance().SearchExplanByWordEng(dataInput);
+                    System.out.println(dataOutput.length());
+                    if(dataOutput.length() >0) {
+                        ExplanWord.getInstance().setData(
+                                dataInput,
+                                dataOutput
+                        );
+                        CardLayout cardLayout = null;
+                        cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
+                        cardLayout.show(view.ContentAreaMenuMain.getInstance(), "explan");
+                    }
+                    else{
+                        ArrayList<String> res= DBConnect.getInstance().Lookup(dataInput);
+                        if(res.size()>0) {
+                            menu.removeAll();
+                            JMenuItem item;
+                            for (int i = 0; i < res.size(); i++) {
+                                item = new JMenuItem(res.get(i));
+                                item.setActionCommand("itemSearch#" + i);
+                                item.addActionListener(this);
+                                menu.add(item);
+                            }
+
+                            menu.setPopupSize(new Dimension(499, 500));
+                            menu.show(mainFrame.getInstance(), 233, 75);
+                        }
+                        else {
+                            System.out.println("éo thấy");
+                            JOptionPane.showMessageDialog(mainFrame.getInstance(),"Không Tìm Thấy Dữ Liệu Phù Hợp","Thông Báo", JOptionPane.WARNING_MESSAGE);
+
+                        }
+                    }
+                }
+            }catch (SQLException er)
+            {
+                System.out.println(er);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            try {
-                CollectionResult.getInstance().loadding();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            CardLayout cardLayout = null;
-            try {
-                cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
-                cardLayout.show(view.ContentAreaMenuMain.getInstance(), "result");
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         } else if (command.equals("btnMenuSearch")) {
             CardLayout cardLayout = null;
+
             try {
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "search");
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
+
+
         } else if (command.equals("card")) {
             CardLayout cardLayout = null;
+
             try {
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "ListCard");
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
+
+
         } else if (command.equals("learn")) {
             System.out.println("learn");
             CardLayout cardLayout = null;
+
             try {
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "learn");
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
+
+
         } else if (command.equals("exam")) {
             System.out.println("exam");
             CardLayout cardLayout = null;
+
             try {
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "exam");
-            } catch (IOException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
             }
-        } else if (command.startsWith("addWordItem#", 0)) {
 
 
+        } else if (command.startsWith("ShowExplan#", 0)) {
+
+                try {
+                    for(int i =0; i < CollectionContent.getInstance().panel.getComponentCount(); i++)
+                    {
+                        if(command.equals("ShowExplan#"+i))
+                        {
+                            String wordEng =  ((WordItem)CollectionContent.getInstance().panel.getComponent(i)).getTextValue();
+                            System.out.println(ControllerDB.getInstance().SearchExplanByWordEng(wordEng));
+                            ExplanWord.getInstance().setData(
+                                    wordEng,
+                                    ControllerDB.getInstance().SearchExplanByWordEng(wordEng)
+                            );
+
+                        }
+                    }
+                    CardLayout cardLayout = null;
+                    cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
+                    cardLayout.show(view.ContentAreaMenuMain.getInstance(), "explan");
+
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
 
             /*for (int i = 0; i < Dictionary.getInstance().size(); i++) {
                 if (command.equals("addWordItem#" + i)) {
@@ -149,7 +210,19 @@ public class Controller implements ActionListener{
         }
         else if (command.startsWith("deleteWordItem#", 0)) {
 
-
+            try {
+                for(int i =0; i < CollectionContent.getInstance().panel.getComponentCount();i++)
+                {
+                    if(command.equals("deleteWordItem#"+i))
+                    {
+                        CollectionContent.getInstance().panel.remove(i);
+                        CollectionContent.getInstance().updateComponent();
+                        CollectionContent.getInstance().updateUI();
+                    }
+                }
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             /*for (int i = 0; i < Dictionary.getInstance().size(); i++) {
                 if (command.equals("deleteWordItem#" + i)) {
                     System.out.println("delete " + i);
@@ -167,7 +240,8 @@ public class Controller implements ActionListener{
                     }
                 }
             }*/
-        } else if (command.equals("btnOKFormFavorites"))
+        }
+        else if (command.equals("btnOKFormFavorites"))
         {
 
             /*if(MessgeEditAndFavorites.getInstance().txBoxVi.getText().length() >0&&
@@ -223,6 +297,15 @@ public class Controller implements ActionListener{
                 MessgeEditAndFavorites.getInstance().setVisible(false);
                 // update phan layout nưa nhé  chưa code :D
             }*/
+        } else if(command.startsWith("itemSearch#", 0))
+        {
+            for(int i =0; i<menu.getComponentCount(); i++)
+            {
+                if (command.equals("itemSearch#" + i))
+                {
+                    System.out.println(((JMenuItem)menu.getComponent(i)).getText());
+                }
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
  */
 package view.search;
 
-import Model.*;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
  */
 public class CollectionResult extends JPanel{
     protected static CollectionResult instance = null;
-    public static CollectionResult getInstance() throws IOException
+    public static CollectionResult getInstance()
     {
         if(instance == null)
         {
@@ -31,18 +31,19 @@ public class CollectionResult extends JPanel{
    // public  ArrayList<WordItem>  collItems= new ArrayList();
     JPanel panel = new JPanel();
 
-    public CollectionResult() throws IOException
+    public CollectionResult()
     {
         init();
     }
-    public void loadding() throws IOException {
+    public void loadding() {
+        panel.removeAll();
         /*for(int i =0; i<ArrayResult.getInstance().size(); i++)
         {
             System.out.println(ArrayResult.getInstance().get(i).getWord_target()+ArrayResult.getInstance().get(i).getWord_explain());
             panel.add(new WordItemResult(ArrayResult.getInstance().get(i).getWord_target(),ArrayResult.getInstance().get(i).getWord_explain(),i));
         }*/
     }
-    protected void init() throws IOException
+    protected void init()
     {
         setLayout(new BorderLayout());
         //JPanel panel = new JPanel();
@@ -61,7 +62,7 @@ public class CollectionResult extends JPanel{
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         add(scrollPane,BorderLayout.CENTER);
     }
-    public void removeOneItem(int index) throws IOException
+    public void removeOneItem(int index)
     {
         System.out.println("remove"+index);
         panel.remove(index);

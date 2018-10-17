@@ -23,7 +23,8 @@ public class CardContent extends JPanel {
         {
             instance = new CardContent();
             return instance;
-        }else 
+        }else
+
             return instance;
     }
     private CardContent()

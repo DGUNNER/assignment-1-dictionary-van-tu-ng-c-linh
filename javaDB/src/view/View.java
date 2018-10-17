@@ -5,7 +5,10 @@
  */
 package view;
 
+import DataBase.DBConnect;
+
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  *
@@ -16,8 +19,9 @@ public class View {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here
+
         mainFrame.getInstance().setVisible(true);
     }
     

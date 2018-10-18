@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 
 import DataBase.DBConnect;
+import ScrollableJPopupmenu.XJPopupMenu;
 import view.ExplanWord;
 import view.TopBar;
 import view.mainFrame;
@@ -42,14 +43,77 @@ public class Controller implements ActionListener{
         }
         else return instance;
     }
-    JPopupMenu menu = new JPopupMenu();
+    XJPopupMenu menu;
     protected Controller()
     {
         init();
     }
     private void init()
     {
-        
+
+    }
+    private void ActionBtnSearch()
+    {
+        String dataInput = TopBar.getInstance().textBox.getText();
+
+        try {
+            if (dataInput.length() > 0) {
+                String dataOutput = ControllerDB.getInstance().SearchExplanByWordEng(dataInput);
+                System.out.println(dataOutput.length());
+                if(dataOutput.length() >0) {
+                    ExplanWord.getInstance().setData(
+                            dataInput,
+                            dataOutput
+                    );
+                    CollectionContent.getInstance().AddItem(dataInput,0);
+                    CollectionContent.getInstance().updateComponent();
+                    CardLayout cardLayout = null;
+                    cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
+                    cardLayout.show(view.ContentAreaMenuMain.getInstance(), "explan");
+                }
+                else{
+                    ArrayList<String> res= DBConnect.getInstance().Lookup(dataInput);
+                    if(res.size()>0) {
+                        menu = new XJPopupMenu(mainFrame.getInstance());
+                        JButton btnItem;
+                        for (int i = 0; i < res.size(); i++) {
+                            btnItem = new JButton(res.get(i));
+                            btnItem.setBackground(Color.WHITE);
+
+                            btnItem.addActionListener(new ActionListener(){
+                                public void actionPerformed(ActionEvent e) {
+
+                                    System.out.println( ((JButton)e.getSource()).getText());
+                                    menu.hidemenu();
+                                    TopBar.getInstance().textBox.setText( ((JButton)e.getSource()).getText());
+
+                                    ActionBtnSearch();
+
+                                }
+                            });
+                            menu.add(btnItem);
+                        }
+
+
+
+                        //menu.setPopupSize(new Dimension(499, 500));
+                        menu.show(mainFrame.getInstance(), 233, 75);
+                    }
+                    else {
+                        System.out.println("éo thấy");
+                        JOptionPane.showMessageDialog(mainFrame.getInstance(),
+                                "Không Tìm Thấy Dữ Liệu Phù Hợp","Thông Báo",
+                                JOptionPane.WARNING_MESSAGE);
+
+                    }
+                }
+            }
+        }catch (SQLException er)
+        {
+            System.out.println(er);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
     }
 
     @Override
@@ -58,49 +122,7 @@ public class Controller implements ActionListener{
 
         String command = e.getActionCommand();
         if (command.equals("btnSearch")) {
-            String dataInput = TopBar.getInstance().textBox.getText();
-
-            try {
-                if (dataInput.length() > 0) {
-                    String dataOutput = ControllerDB.getInstance().SearchExplanByWordEng(dataInput);
-                    System.out.println(dataOutput.length());
-                    if(dataOutput.length() >0) {
-                        ExplanWord.getInstance().setData(
-                                dataInput,
-                                dataOutput
-                        );
-                        CardLayout cardLayout = null;
-                        cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
-                        cardLayout.show(view.ContentAreaMenuMain.getInstance(), "explan");
-                    }
-                    else{
-                        ArrayList<String> res= DBConnect.getInstance().Lookup(dataInput);
-                        if(res.size()>0) {
-                            menu.removeAll();
-                            JMenuItem item;
-                            for (int i = 0; i < res.size(); i++) {
-                                item = new JMenuItem(res.get(i));
-                                item.setActionCommand("itemSearch#" + i);
-                                item.addActionListener(this);
-                                menu.add(item);
-                            }
-
-                            menu.setPopupSize(new Dimension(499, 500));
-                            menu.show(mainFrame.getInstance(), 233, 75);
-                        }
-                        else {
-                            System.out.println("éo thấy");
-                            JOptionPane.showMessageDialog(mainFrame.getInstance(),"Không Tìm Thấy Dữ Liệu Phù Hợp","Thông Báo", JOptionPane.WARNING_MESSAGE);
-
-                        }
-                    }
-                }
-            }catch (SQLException er)
-            {
-                System.out.println(er);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            ActionBtnSearch();
 
         } else if (command.equals("btnMenuSearch")) {
             CardLayout cardLayout = null;
@@ -297,15 +319,6 @@ public class Controller implements ActionListener{
                 MessgeEditAndFavorites.getInstance().setVisible(false);
                 // update phan layout nưa nhé  chưa code :D
             }*/
-        } else if(command.startsWith("itemSearch#", 0))
-        {
-            for(int i =0; i<menu.getComponentCount(); i++)
-            {
-                if (command.equals("itemSearch#" + i))
-                {
-                    System.out.println(((JMenuItem)menu.getComponent(i)).getText());
-                }
-            }
         }
     }
 }

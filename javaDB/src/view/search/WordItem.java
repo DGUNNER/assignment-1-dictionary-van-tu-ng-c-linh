@@ -6,6 +6,7 @@
 package view.search;
 
 
+import API.Speaker;
 import Controller.Controller;
 
 import java.awt.*;
@@ -73,19 +74,12 @@ public class WordItem extends JPanel{
 
         btn1.setText(_wordEng);
         btn1.setContentAreaFilled(false);
+
         btn1.setIcon(new ImageIcon("icons/speaker.png"));
+        btn1.setHorizontalTextPosition(SwingConstants.LEFT);
 
+        setBackground(Color.WHITE);
 
-        //BtnNone btnicon = new BtnNone(new ImageIcon("icons/speaker.png") );
-        if(index % 2 ==0)
-        {
-            this.setBackground(new Color(242, 242, 242));
-
-        }else 
-        {
-            this.setBackground(Color.white);
-
-        }
         btn1.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -94,6 +88,12 @@ public class WordItem extends JPanel{
                    menu.show(e.getComponent(), e.getX(), e.getY()); // hien thi taij vi tri con tro chuot
 
                }
+            }
+            public void mouseClicked(MouseEvent event)
+            {
+                if (event.getClickCount() == 2) {
+                   new Speaker(((BtnNone)event.getSource()).getText());
+                }
             }
         });
 

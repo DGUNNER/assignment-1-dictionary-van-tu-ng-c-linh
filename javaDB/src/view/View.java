@@ -6,7 +6,10 @@
 package view;
 
 import DataBase.DBConnect;
+import view.search.CollectionContent;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -23,6 +26,18 @@ public class View {
         // TODO code application logic here
 
         mainFrame.getInstance().setVisible(true);
+        mainFrame.getInstance().addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("WindowClosingDemo.windowClosing");
+                try {
+                    CollectionContent.getInstance().updateDatabase();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                System.exit(0);
+            }
+        });
     }
     
 }

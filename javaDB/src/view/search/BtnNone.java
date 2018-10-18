@@ -38,6 +38,7 @@ public class BtnNone extends JButton{
         //setContentAreaFilled(false);
         //setBorderPainted(false);
         //setFocusPainted(false);
+
         setFont(new Font("Monaco", Font.PLAIN, 17));
         setBorder(new EmptyBorder(0, 0, 0, 0));
         setVerticalAlignment(SwingConstants.CENTER);

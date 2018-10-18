@@ -29,6 +29,14 @@ public class ControllerDB implements ActionListener
     {
 
     }
+    public void insertToHitory(String word, int index) throws SQLException {
+        String query ="INSERT INTO `history`(`idx`, `word`) VALUES ("+index+",'"+word+"')";
+        DBConnect.getInstance().insertData(query);
+    }
+    public void updateToHistory(String word, int i) throws SQLException {
+        String query="UPDATE `history` SET `idx`="+i+",`word`='"+word+"' WHERE idx="+i;
+        DBConnect.getInstance().updateData(query);
+    }
     public String SearchExplanByWordEng(String inputText) throws SQLException {
         String query ="SELECT * FROM `tbl_edict` WHERE word='"+inputText+"'";
         ResultSet data = DBConnect.getInstance().getData(query);
@@ -40,8 +48,9 @@ public class ControllerDB implements ActionListener
 
         return kq;
     }
+
     public ResultSet loadDataCollectionContent() throws SQLException {
-        String query ="SELECT * FROM `tbl_edict` WHERE idx<30";
+        String query ="SELECT * FROM `history`";
         ResultSet data = DBConnect.getInstance().getData(query);
         //System.out.println("day la controller");
        // System.out.println(data.next());

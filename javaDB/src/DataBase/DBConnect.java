@@ -46,7 +46,7 @@ public class DBConnect {
         rs = preSt.executeQuery();
         int i = 0;
         while (rs.next()){
-            if(i >= 30) break;
+            //if(i >= 30) break;
             WordLookup.add(rs.getString("word"));
             i++;
         }

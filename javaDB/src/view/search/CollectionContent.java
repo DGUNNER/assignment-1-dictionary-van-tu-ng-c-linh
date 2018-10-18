@@ -9,7 +9,7 @@ package view.search;
 import Controller.ControllerDB;
 import DataBase.DBConnect;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,17 +54,28 @@ public class CollectionContent extends JPanel{
     }
     public void AddItem(String Word,int i)
     {
-        panel.add(new WordItem(Word,i));
+
+        panel.add(new WordItem(Word,i),i);
+        updateComponent();
+        if(panel.getComponentCount()>30)
+        {
+            //panel.remove(31);
+        }
     }
     public void removeOneItem(int index) throws IOException
     {
         System.out.println("remove"+index);
         panel.remove(index);
-
         panel.updateUI();
 
     }
 
+    public void updateDatabase() throws SQLException {
+        for(int i =0; i < panel.getComponentCount();i ++)
+        {
+            ControllerDB.getInstance().updateToHistory(((WordItem)panel.getComponent(i)).getTextValue(),i);
+        }
+    }
     public void loadData() throws SQLException {
         //panel.removeAll();
 
@@ -72,14 +83,11 @@ public class CollectionContent extends JPanel{
         int index=0;
         while(data.next())
         {
+            //System.out.println("a");
             String a = data.getString("word");
             System.out.println(a);
             AddItem(data.getString("word"),index);
 
-           /* DBConnect.getInstance().insertData("INSERT INTO `history`(`idx`, `word`, `detail`, `mean`) VALUES" +
-                    "(null,'"+data.getString("word")+
-                    "','"+data.getString("detail")+
-                    "','"+data.getString("detail")+"')");*/
             index++;
         }
 
@@ -94,7 +102,14 @@ public class CollectionContent extends JPanel{
         for(int i =0; i < panel.getComponentCount();i ++)
         {
             ((WordItem)panel.getComponent(i)).setActionCommand(i);
+            if(i%2 ==1)
+            {
+                ((WordItem)panel.getComponent(i)).setBackground(new Color(242, 242, 242));
+            }
+            else ((WordItem)panel.getComponent(i)).setBackground(Color.WHITE);
+
         }
+        panel.updateUI();
     }
     
 }

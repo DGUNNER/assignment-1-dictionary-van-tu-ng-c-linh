@@ -8,12 +8,15 @@ package view.learn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 
+import view.Card.CardItem;
+import view.Card.ListCard;
 import view.search.BtnNone;
 
 /**
@@ -23,8 +26,7 @@ import view.search.BtnNone;
 public class LearnWord extends JPanel implements ActionListener{
     
     private static LearnWord instance = null;
-    public static LearnWord getInstance()
-    {
+    public static LearnWord getInstance() throws SQLException {
         if(instance == null)
         {
             instance = new LearnWord();
@@ -45,13 +47,11 @@ public class LearnWord extends JPanel implements ActionListener{
     }
    
 
-    private LearnWord()
-    {
+    private LearnWord() throws SQLException {
         loaddata();
         init();
     }
-    private void init()
-    {
+    private void init() throws SQLException {
         
         setLayout(new BorderLayout());
         Border border = LineBorder.createGrayLineBorder();
@@ -69,18 +69,17 @@ public class LearnWord extends JPanel implements ActionListener{
         add(left,BorderLayout.LINE_START);
         add(right,BorderLayout.LINE_END);
     }
-    public  void loopLearn()
-    {
-        /*if(index < FavoritesWordList.getInstance().size())
+    public  void loopLearn() throws SQLException {
+        if( index<ListCard.getInstance().panel.getComponentCount())
         {
             System.out.println(index);
-            Card.getInstance().setEng(FavoritesWordList.getInstance().get(index).getWord_target());
-            Card.getInstance().setViet(FavoritesWordList.getInstance().get(index).getWord_explain());
+            Card.getInstance().setEng(((CardItem)ListCard.getInstance().panel.getComponent(index)).getTextBtnAnh());
+            Card.getInstance().setViet(((CardItem)ListCard.getInstance().panel.getComponent(index)).getTextBtnViet());
 
             Card.getInstance().LoadDataItem();
             Card.getInstance().showBtnEng();
             Card.getInstance().repaint();
-        }*/
+        }
     }
     public void EndLearn()
     {
@@ -100,16 +99,25 @@ public class LearnWord extends JPanel implements ActionListener{
             if(index >0)
             {
                 index--;
-                loopLearn();
+                try {
+                    loopLearn();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }else if(cmd.equals("right"))
         {
-            /*if(index <FavoritesWordList.getInstance().size()-1)
+            try {
+
+
+                if (index < ListCard.getInstance().panel.getComponentCount() - 1) {
+                    index++;
+                    loopLearn();
+                } else if (index == ListCard.getInstance().panel.getComponentCount() - 1) EndLearn();
+            }catch (SQLException er)
             {
-                index++;
-                loopLearn();
+                System.out.println(er);
             }
-            else  if (index == FavoritesWordList.getInstance().size()-1) EndLearn();*/
         }
     }
 }

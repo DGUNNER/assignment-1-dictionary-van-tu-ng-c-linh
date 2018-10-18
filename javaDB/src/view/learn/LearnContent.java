@@ -7,6 +7,7 @@ package view.learn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,8 +19,7 @@ public class LearnContent extends JPanel {
     private static LearnContent instance = null;
     public final int WIDTH_Content = 850;
 
-    public static LearnContent getInstance()
-    {
+    public static LearnContent getInstance() throws SQLException {
         if(instance == null)
         {
             instance = new LearnContent();
@@ -28,12 +28,10 @@ public class LearnContent extends JPanel {
             return instance;
     }
 
-    private LearnContent()
-    {
+    private LearnContent() throws SQLException {
         init();
     }
-    private void init()
-    {
+    private void init() throws SQLException {
         setLayout(null);
         setBackground(Color.white);
         LearnWord.getInstance().setBounds(WIDTH_Content/2 - LearnWord.getInstance().WIDTH_ /2 - 30

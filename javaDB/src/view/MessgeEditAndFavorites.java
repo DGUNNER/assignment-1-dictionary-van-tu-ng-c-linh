@@ -22,12 +22,26 @@ import java.awt.event.ActionListener;
         public JTextField txBoxAnh = new JTextField();
         public JTextField txBoxVi = new JTextField();
 
+        public String getTxBoxAnh() {
+            return txBoxAnh.getText();
+        }
 
+        public void setTxBoxAnh(String Anh) {
+            this.txBoxAnh.setText(Anh);
+        }
+
+        public String  getTxBoxVi() {
+            return txBoxVi.getText();
+        }
+
+        public void setTxBoxVi(String Viet) {
+            this.txBoxVi.setText(Viet);
+        }
 
         public final int _width =400;
         public final int _height =180;
 
-        private int indexCollection = 0; // âm là index của Favorites dương là của dictionary
+        private int indexCollection = -1; // -1  là thêm thẻ// số khác là sửa thể thứ indexCollection
 
 
         public int getIndexCollection() {
@@ -37,22 +51,11 @@ import java.awt.event.ActionListener;
         public void setIndexCollection(int indexCollection) {
             this.indexCollection = indexCollection;
         }
-        public boolean isAdd =true; //0 là mặc đinh  = 1 là thêm = -1 là sửa
+
+
 
         JButton btnOK = new JButton("OK");
         JButton btnCANCEL = new JButton("CANCEL");
-//        public String TiengAnh;
-//        public String TiengViet;
-//
-//        public String getTiengAnh() {
-//            return TiengAnh;
-//        }
-//
-//
-//        public String getTiengViet() {
-//            return TiengViet;
-//        }
-
 
 
         public JLabel Title = new JLabel();
@@ -114,7 +117,7 @@ import java.awt.event.ActionListener;
             JPanel panel = new JPanel(new FlowLayout());
 
             btnOK.addActionListener(Controller.getInstance());
-            btnOK.setActionCommand("btnOKFormFavorites");
+            btnOK.setActionCommand("btnOKMessage");
             panel.add(btnOK);
             panel.add(btnCANCEL);
 

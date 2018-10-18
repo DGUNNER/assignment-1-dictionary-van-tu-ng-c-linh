@@ -13,7 +13,10 @@ import java.util.logging.Logger;
 
 import DataBase.DBConnect;
 import ScrollableJPopupmenu.XJPopupMenu;
+import view.Card.CardItem;
+import view.Card.ListCard;
 import view.ExplanWord;
+import view.MessgeEditAndFavorites;
 import view.TopBar;
 import view.mainFrame;
 import view.search.CollectionContent;
@@ -213,7 +216,7 @@ public class Controller implements ActionListener{
                     MessgeEditAndFavorites.getInstance().Title.setText("Chỉnh Sửa Thẻ");
                     MessgeEditAndFavorites.getInstance().isAdd =false;
                     MessgeEditAndFavorites.getInstance().setIndexCollection(-i);
-                    MessgeEditAndFavorites.getInstance().setVisible(true);
+                   MessgeEditAndFavorites.getInstance().setVisible(true);
                 }
             }*/
         } else if (command.startsWith("addWorditemToFavorits#", 0)) {
@@ -245,72 +248,124 @@ public class Controller implements ActionListener{
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            /*for (int i = 0; i < Dictionary.getInstance().size(); i++) {
-                if (command.equals("deleteWordItem#" + i)) {
-                    System.out.println("delete " + i);
-                    try {
-                        CollectionContent.getInstance().removeOneItem(i);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
 
-                    Dictionary.getInstance().remove(i);
-                    try {
-                        CollectionContent.getInstance().upload();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+        } else if (command.startsWith("addCardItem#", 0)) {
+
+
+            try {
+
+                for (int i = 0; i < ListCard.getInstance().panel.getComponentCount(); i++)
+                {
+                    if(command.equals("addCardItem#"+i))
+                    {
+                        MessgeEditAndFavorites.getInstance().resetAnhViet();
+                        MessgeEditAndFavorites.getInstance().setTitle("Thêm Từ");
+                        MessgeEditAndFavorites.getInstance().setIndexCollection(-1);
+                        MessgeEditAndFavorites.getInstance().setVisible(true);
+
+                        System.out.println("thêm");
+                        System.out.println(((CardItem)ListCard.getInstance().panel.getComponent(i)).getTextBtnAnh());
                     }
+                }
+            }catch (SQLException er)
+            {
+                System.out.println(er);
+            }
+
+
+        } else if (command.startsWith("editCardItem#", 0)) {
+
+
+            try {
+
+                for (int i = 0; i < ListCard.getInstance().panel.getComponentCount(); i++)
+                {
+                    if(command.equals("editCardItem#"+i))
+                    {
+                        MessgeEditAndFavorites.getInstance().resetAnhViet();
+                        MessgeEditAndFavorites.getInstance().setTitle("Sửa Từ");
+                        MessgeEditAndFavorites.getInstance().setIndexCollection(i);
+                        MessgeEditAndFavorites.getInstance().setVisible(true);
+
+                        System.out.println("sửa");
+                        System.out.println(((CardItem)ListCard.getInstance().panel.getComponent(i)).getTextBtnAnh());
+                    }
+                }
+            }catch (SQLException er)
+            {
+                System.out.println(er);
+            }
+
+        } else if (command.startsWith("deleteCardItem#", 0)) {
+            try {
+
+                for (int i = 0; i < ListCard.getInstance().panel.getComponentCount(); i++)
+                {
+                    if(command.equals("deleteCardItem#"+i))
+                    {
+                        System.out.println("Xóa");
+                        System.out.println(((CardItem)ListCard.getInstance().panel.getComponent(i)).getTextBtnAnh());
+                        ListCard.getInstance().panel.remove(i);
+                        ListCard.getInstance().reloadListCard();
+                        ListCard.getInstance().panel.updateUI();
+
+                    }
+                }
+            }catch (SQLException er)
+            {
+                System.out.println(er);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            /*for (int i = 0; i < Dictionary.getInstance().size(); i++) {
+                if (command.equals("editWordItem#" + i)) {
+                    System.out.println("edit " + i);
+                    System.out.println("add " + i);
+                    MessgeEditAndFavorites.getInstance().Title.setText("Chỉnh Sửa Thẻ");
+                    MessgeEditAndFavorites.getInstance().isAdd =false;
+                    MessgeEditAndFavorites.getInstance().setIndexCollection(-i);
+                    MessgeEditAndFavorites.getInstance().setVisible(true);
                 }
             }*/
         }
-        else if (command.equals("btnOKFormFavorites"))
+
+
+        else if (command.equals("btnOKMessage"))
         {
 
-            /*if(MessgeEditAndFavorites.getInstance().txBoxVi.getText().length() >0&&
+            if(MessgeEditAndFavorites.getInstance().txBoxVi.getText().length() >0&&
                     MessgeEditAndFavorites.getInstance().txBoxAnh.getText().length()>0)
             {
-                int index = MessgeEditAndFavorites.getInstance().getIndexCollection();
-                if(index >0) // index  > 0 thì là thao tac vơi Dictionary nho hon 0 thì thao tac với Favorites
-                {
-                    if(MessgeEditAndFavorites.getInstance().isAdd==true)
+                try {
+                    int index = MessgeEditAndFavorites.getInstance().getIndexCollection();
+                    if (index == -1) // index == -1 thao tac thêm du lieu
                     {
-                        Dictionary.getInstance().add(new Word(
-                                MessgeEditAndFavorites.getInstance().txBoxAnh.getText(),
-                                MessgeEditAndFavorites.getInstance().txBoxVi.getText()
-                        ));// thêm từ
-                    }
-                    else {
-                        Dictionary.getInstance().get(index).setWord_target(
-                                MessgeEditAndFavorites.getInstance().txBoxAnh.getText()); //set tieng anh
-                        Dictionary.getInstance().get(index).setWord_explain(
-                                MessgeEditAndFavorites.getInstance().txBoxVi.getText()//set tieng viet
-                        );
-                    }
-                    try {
-                        CollectionContent.getInstance().upload();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-                else
-                {
-                    if(MessgeEditAndFavorites.getInstance().isAdd ==true)
-                    {
-                        FavoritesWordList.getInstance().add(new Word(
-                                MessgeEditAndFavorites.getInstance().txBoxAnh.getText(),
-                                MessgeEditAndFavorites.getInstance().txBoxVi.getText()
-                        ));// thêm từ
-                    }else
-                    {
-                        FavoritesWordList.getInstance().get(-index).setWord_target(
-                                MessgeEditAndFavorites.getInstance().txBoxAnh.getText()); //set tieng anh
-                        FavoritesWordList.getInstance().get(-index).setWord_explain(
-                                MessgeEditAndFavorites.getInstance().txBoxVi.getText()//set tieng viet
-
-                        );
+                        System.out.println("them nhé :D");
+                        ListCard.getInstance().panel.add(new CardItem(
+                                MessgeEditAndFavorites.getInstance().getTxBoxAnh(),
+                                MessgeEditAndFavorites.getInstance().getTxBoxVi(),
+                                ListCard.getInstance().panel.getComponentCount()
+                        ));
+                        ListCard.getInstance().reloadListCard();
+                        ListCard.getInstance().updateUI();
 
                     }
-                    ListCard.getInstance().upload();
+                    else {//sửa  data ở vị trí index
+
+                        ((CardItem)(ListCard.getInstance().panel.getComponent(index))).setTextBtnAnh(
+                                MessgeEditAndFavorites.getInstance().getTxBoxAnh()
+                        );
+
+                        ((CardItem)(ListCard.getInstance().panel.getComponent(index))).setTextBtnViet(
+                                MessgeEditAndFavorites.getInstance().getTxBoxVi()
+                        );
+                        ListCard.getInstance().repaint();
+                    }
+                }catch (SQLException er)
+                {
+                    System.out.println(er);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
 
                 System.out.println(MessgeEditAndFavorites.getInstance().txBoxAnh.getText()+"==> "+
@@ -318,7 +373,7 @@ public class Controller implements ActionListener{
                 MessgeEditAndFavorites.getInstance().resetAnhViet();
                 MessgeEditAndFavorites.getInstance().setVisible(false);
                 // update phan layout nưa nhé  chưa code :D
-            }*/
+            }
         }
     }
 }

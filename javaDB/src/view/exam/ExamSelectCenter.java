@@ -1,5 +1,6 @@
 package view.exam;
 
+import view.Card.CardItem;
 import view.search.BtnNone;
 
 import javax.swing.*;
@@ -85,39 +86,36 @@ public class ExamSelectCenter extends JPanel  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         String cmd = actionEvent.getActionCommand();
-        if(cmd.equals("option1"))
-        {
-            if(option1.getText().equals(ExamSelect.getInstance().tiengViet.get(index)))
-            {
-                System.out.println("chọn đúng");
-            }else System.out.println("chọn sai");
-            ExamSelect.getInstance().loopExam();
-        }else if(cmd.equals("option2"))
-        {
+        try {
+            if (cmd.equals("option1")) {
 
-            if(option2.getText().equals(ExamSelect.getInstance().tiengViet.get(index)))
-            {
-                System.out.println("chọn đúng");
+                if (option1.getText().equals(((CardItem)ExamSelect.getInstance().data.getComponent(index)).getTextBtnViet())) {
+                    System.out.println("chọn đúng");
+                } else System.out.println("chọn sai");
+                ExamSelect.getInstance().loopExam();
+            } else if (cmd.equals("option2")) {
+
+                if (option2.getText().equals(((CardItem)ExamSelect.getInstance().data.getComponent(index)).getTextBtnViet())) {
+                    System.out.println("chọn đúng");
+                } else System.out.println("chọn sai");
+                ExamSelect.getInstance().loopExam();
+
+            } else if (cmd.equals("option3")) {
+                if (option3.getText().equals(((CardItem)ExamSelect.getInstance().data.getComponent(index)).getTextBtnViet())) {
+                    System.out.println("chọn đúng");
+                } else System.out.println("chọn sai");
+                ExamSelect.getInstance().loopExam();
+
+            } else if (cmd.equals("option4")) {
+                if (option4.getText().equals(((CardItem)ExamSelect.getInstance().data.getComponent(index)).getTextBtnViet())) {
+                    System.out.println("chọn đúng");
+                } else System.out.println("chọn sai");
+                ExamSelect.getInstance().loopExam();
+
             }
-            else System.out.println("chọn sai");
-            ExamSelect.getInstance().loopExam();
-
-        } else if(cmd.equals("option3"))
+        }catch (Exception e)
         {
-            if(option3.getText().equals(ExamSelect.getInstance().tiengViet.get(index)))
-            {
-                System.out.println("chọn đúng");
-            }else System.out.println("chọn sai");
-            ExamSelect.getInstance().loopExam();
-
-        } else if(cmd.equals("option4"))
-        {
-            if(option4.getText().equals(ExamSelect.getInstance().tiengViet.get(index)))
-            {
-                System.out.println("chọn đúng");
-            }else System.out.println("chọn sai");
-            ExamSelect.getInstance().loopExam();
-
+            System.out.println(e);
         }
     }
 }

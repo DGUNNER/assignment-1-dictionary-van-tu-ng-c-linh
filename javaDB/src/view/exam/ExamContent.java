@@ -6,6 +6,7 @@
 package view.exam;
 
 import java.awt.*;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 
 /**
@@ -15,8 +16,7 @@ import javax.swing.JPanel;
 public class ExamContent extends JPanel{
     private static ExamContent instance = null;
     
-    public static ExamContent getInstance()
-    {
+    public static ExamContent getInstance() throws SQLException {
         if(instance == null)
         {
             instance = new ExamContent();
@@ -24,12 +24,10 @@ public class ExamContent extends JPanel{
         }else 
             return instance;
     }
-    public ExamContent()
-    {
+    public ExamContent() throws SQLException {
         init();
     }
-    private void init()
-    {
+    private void init() throws SQLException {
         setBackground(Color.white);
         setLayout(new CardLayout());
         add(ExamSelect.getInstance(),"EXAMSELECT");

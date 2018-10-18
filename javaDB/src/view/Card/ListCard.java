@@ -6,9 +6,14 @@
 package view.Card;
 
 
+import Controller.ControllerDB;
+import view.search.BtnNone;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,10 +24,30 @@ import javax.swing.JScrollPane;
  */
 public class ListCard extends JPanel{
 
-    private JPanel panel = new JPanel();
+    public  JPanel panel = new JPanel();
     private JScrollPane scrollPane = new JScrollPane(panel);
-    public void setListCard() {
-        
+    public void loadListCard() throws SQLException {
+
+        ResultSet data = ControllerDB.getInstance().loadDataCardToFavoritesWord();
+        int i =0;
+        while(data.next())
+        {
+            CardItem tmp = new CardItem(
+                    data.getString("word"),
+                    data.getString("mean"),
+                    i
+            );
+            if(i%2==0)
+            {
+                tmp.setBackground(new Color(242, 242, 242));
+            }
+            else
+            {
+                tmp.setBackground(Color.WHITE);
+            }
+            panel.add(tmp);
+            i++;
+        }
        /*for(int i = 0; i< FavoritesWordList.getInstance().size(); i++)
        {
            panel.add(new CardItem(FavoritesWordList.getInstance().get(i).getWord_target(),
@@ -30,9 +55,9 @@ public class ListCard extends JPanel{
        }*/
         
     }
+
     private static ListCard instance = null;
-    public static ListCard getInstance()
-    {
+    public static ListCard getInstance() throws SQLException {
         if(instance == null)
         {
             instance = new ListCard();
@@ -40,9 +65,8 @@ public class ListCard extends JPanel{
         }else 
             return instance;
     }
-    protected ListCard()
-    {
-        setListCard();
+    protected ListCard() throws SQLException {
+        loadListCard();
         init();
     }
     private void init()
@@ -60,27 +84,21 @@ public class ListCard extends JPanel{
         
     }
 
-    public void removeOneItem(int index) throws IOException
+    public void reloadListCard() throws IOException
     {
-        System.out.println("remove"+index);
-        panel.remove(index);
-        
-        panel.updateUI();
-        
-    }
-    public void removeAllItems()
-    {
-        System.out.println("remove");
-        panel.removeAll();
-        panel.repaint();
-        
+       for(int i = 0; i <panel.getComponentCount(); i++)
+       {
+           Color color;
+           if(i%2==0)
+               color =new Color(242, 242, 242);
+           else
+               color =Color.WHITE;
+
+           ((CardItem)panel.getComponent(i)).setBackground(color);
+           ((CardItem)panel.getComponent(i)).uploadActionCmd(i);
+       }
         
     }
 
-    public void upload()
-    {
-        panel.removeAll();
 
-        panel.updateUI();
-    }
 }

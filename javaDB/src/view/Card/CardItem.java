@@ -1,5 +1,7 @@
 package view.Card;
 
+import API.Speaker;
+import Controller.Controller;
 import view.search.BtnNone;
 
 import javax.swing.*;
@@ -7,83 +9,95 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class CardItem extends JPanel{
-    private String WordEng,WordVi;
+public class CardItem extends BtnNone{
 
-    public String getWordEng() {
-        return WordEng;
-    }
 
-    public String getWordVi() {
-        return WordVi;
-    }
-    public int index;
-    public void setWordEng(String WordEng) {
-        this.WordEng = WordEng;
+    private JLabel btnViet = new JLabel();
+    private JLabel btnAnh = new JLabel();
+
+    public String getTextBtnViet() {
+        return btnViet.getText();
     }
 
-    public void setWordVi(String WordVi) {
-        this.WordVi = WordVi;
+    public void setTextBtnViet(String Viet) {
+        this.btnViet.setText( Viet);
     }
+
+    public String getTextBtnAnh() {
+        return btnAnh.getText();
+    }
+
+    public void setTextBtnAnh(String Anh) {
+        this.btnAnh.setText(Anh);
+    }
+    public void uploadActionCmd(int index)
+    {
+        addCardItem.setActionCommand("addCardItem#"+index);
+        editCardItem.setActionCommand("editCardItem#"+index);
+        deleteCardItem.setActionCommand("deleteCardItem#"+index);
+    }
+    JPopupMenu menu = new JPopupMenu();
+    JMenuItem addCardItem = new JMenuItem("Thêm thẻ");
+    JMenuItem editCardItem = new JMenuItem("Sửa thẻ");
+    JMenuItem deleteCardItem = new JMenuItem("Xóa thẻ");
     public CardItem(String _wordEng, String _wordVi, int index)
     {
+        addCardItem.setActionCommand("addCardItem#"+index);
+        addCardItem.addActionListener(Controller.getInstance());
 
-        JPopupMenu menu = new JPopupMenu();
 
-        JMenuItem addCardItem = new JMenuItem("Thêm thẻ");
+        editCardItem.setActionCommand("editCardItem#"+index);
+        editCardItem.addActionListener(Controller.getInstance());
 
-        JMenuItem editCardItem = new JMenuItem("Sửa thẻ");
-        JMenuItem deleteCardItem = new JMenuItem("Xóa thẻ");
+
+        deleteCardItem.setActionCommand("deleteCardItem#"+index);
+        deleteCardItem.addActionListener(Controller.getInstance());
+
 
         menu.add(addCardItem);
+        menu.add(editCardItem);
         menu.add(deleteCardItem);
 
-        this.index =index;
-        setWordEng(_wordEng);
+
+
         setPreferredSize(new Dimension(40, 50));
-        setWordVi(_wordVi);
+
         setLayout( new GridLayout(1,0));
 
-        BtnNone btn1= new BtnNone(WordEng);
-        btn1.setIcon(new ImageIcon("icons/speaker.png"));
-        btn1.setContentAreaFilled(false);
+        btnAnh= new JLabel(_wordEng);
+        btnAnh.setHorizontalAlignment(CENTER);
+        btnAnh.setFont(new Font("Monaco", Font.PLAIN, 18));
+        btnAnh.setIcon(new ImageIcon("icons/speaker.png"));
+        //btnAnh.setContentAreaFilled(false);
 
-        BtnNone btn2= new BtnNone(WordVi);
-        btn2.setContentAreaFilled(false);
-        btn2.setFocusPainted(false);
+         btnViet= new JLabel(_wordVi);
+         btnViet.setHorizontalAlignment(CENTER);
+         btnViet.setFont(new Font("Monaco", Font.PLAIN, 18));
+        //btnViet.setContentAreaFilled(false);
+       // btnViet.setFocusPainted(false);
 
-        if(index % 2 ==0)
-        {
-
-            this.setBackground(new Color(242, 242, 242));
-        }else
-        {
-
-            this.setBackground(Color.white);
-        }
-
-        btn1.addMouseListener(new MouseAdapter() {
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
+                if(e.getClickCount()==2){
+                    // your code here
+                    new Speaker(((CardItem)(e.getSource())).getTextBtnAnh());
+                }
+                if(e.getButton() ==MouseEvent.BUTTON1)
+                {
+
+                   TitleListCard.getInstance().setTextAnh(((CardItem)(e.getSource())).getTextBtnAnh());
+                    TitleListCard.getInstance().setTextViet(((CardItem)(e.getSource())).getTextBtnViet());
+                }
                 if(e.getButton() == MouseEvent.BUTTON3) // neu nhap phair chuot thi
                 {
                     menu.show(e.getComponent(), e.getX(), e.getY()); // hien thi taij vi tri con tro chuot
-
                 }
-            }
-        });
-        btn2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if(e.getButton() == MouseEvent.BUTTON3) // neu nhap phair chuot thi
-                {
-                    menu.show(e.getComponent(), e.getX(), e.getY()); // hien thi taij vi tri con tro chuot
 
-                }
             }
         });
 
-        add(btn1);
-        add(btn2);
+        add(btnAnh);
+        add(btnViet);
     }
 }

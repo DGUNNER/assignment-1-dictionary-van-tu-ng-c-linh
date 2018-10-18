@@ -1,34 +1,25 @@
 package view.exam;
 
+import view.Card.CardItem;
+import view.Card.ListCard;
+
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class ExamSelect extends JPanel {
     private static ExamSelect instance = null;
 
-    ArrayList<String> tiengViet = new  ArrayList();
-    ArrayList<String> tienganh = new  ArrayList();
-    ArrayList<Boolean> tmp = new ArrayList<Boolean>(tiengViet.size());
+    public JPanel data;
     static int index =0;
 
-    private void loaddata()
-    {
-        tiengViet.add("gà");
-        tienganh.add("chicken");
-        tiengViet.add("chos");
-        tienganh.add("dog");
-        tiengViet.add("chim");
-        tienganh.add("bird");
-        tiengViet.add("cây");
-        tienganh.add("tree");
-        tiengViet.add("bút");
-        tienganh.add("pen");
+    private void loaddata() throws SQLException {
+        data = ListCard.getInstance().panel;
     }
 
-    public static ExamSelect getInstance()
-    {
+    public static ExamSelect getInstance() throws SQLException {
         if(instance ==null)
 
         {
@@ -36,8 +27,7 @@ public class ExamSelect extends JPanel {
             return instance;
         }else return instance;
     }
-    public ExamSelect()
-    {
+    public ExamSelect() throws SQLException {
         loaddata();
         init();
     }
@@ -50,16 +40,16 @@ public class ExamSelect extends JPanel {
 
     void loopExam() {
 
-        if (index < tiengViet.size())
+        if (index < data.getComponentCount())
         {
         ExamSelectCenter.getInstance().index = index;
-        ExamSelectTop.getInstance().setTextLbl(tienganh.get(index));
-        ExamSelectCenter.getInstance().setData(tiengViet.get(index));
+        ExamSelectTop.getInstance().setTextLbl(((CardItem)data.getComponent(index)).getTextBtnAnh());
+        ExamSelectCenter.getInstance().setData(((CardItem)data.getComponent(index)).getTextBtnViet());
 
-        ExamSelectCenter.getInstance().setTextSelect1(tiengViet.get(index));
-        ExamSelectCenter.getInstance().setTextSelect2(tiengViet.get((index + 1) % tiengViet.size()));
-        ExamSelectCenter.getInstance().setTextSelect3(tiengViet.get((index + 2) % tiengViet.size()));
-        ExamSelectCenter.getInstance().setTextSelect4(tiengViet.get((index + 3) % tiengViet.size()));
+        ExamSelectCenter.getInstance().setTextSelect1(((CardItem)data.getComponent(index)).getTextBtnViet());
+        ExamSelectCenter.getInstance().setTextSelect2(((CardItem)data.getComponent((index+1)%data.getComponentCount())).getTextBtnViet());
+        ExamSelectCenter.getInstance().setTextSelect3(((CardItem)data.getComponent((index+2)%data.getComponentCount())).getTextBtnViet());
+        ExamSelectCenter.getInstance().setTextSelect4(((CardItem)data.getComponent((index+3)%data.getComponentCount())).getTextBtnViet());
         ExamSelectCenter.getInstance().repaint();
         index++;
         }

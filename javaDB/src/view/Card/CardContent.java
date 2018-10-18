@@ -7,6 +7,7 @@ package view.Card;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -17,8 +18,7 @@ import javax.swing.border.LineBorder;
  */
 public class CardContent extends JPanel {
      private static CardContent instance = null;
-    public static CardContent getInstance()
-    {
+    public static CardContent getInstance() throws SQLException {
         if(instance == null)
         {
             instance = new CardContent();
@@ -27,12 +27,10 @@ public class CardContent extends JPanel {
 
             return instance;
     }
-    private CardContent()
-    {
+    private CardContent() throws SQLException {
         init();
     }
-    private void init()
-    {
+    private void init() throws SQLException {
         setLayout(new BorderLayout());
         
         add(TitleListCard.getInstance(),BorderLayout.PAGE_START);

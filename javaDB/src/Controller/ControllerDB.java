@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ControllerDB implements ActionListener
 {
@@ -29,14 +30,23 @@ public class ControllerDB implements ActionListener
     {
 
     }
+    public ResultSet loadDataCardToFavoritesWord()
+    {
+        String query="SELECT * FROM `favorites_word`";
+        ResultSet res = DBConnect.getInstance().getData(query);
+        return res;
+    }
+
     public void insertToHitory(String word, int index) throws SQLException {
         String query ="INSERT INTO `history`(`idx`, `word`) VALUES ("+index+",'"+word+"')";
         DBConnect.getInstance().insertData(query);
     }
+
     public void updateToHistory(String word, int i) throws SQLException {
         String query="UPDATE `history` SET `idx`="+i+",`word`='"+word+"' WHERE idx="+i;
         DBConnect.getInstance().updateData(query);
     }
+
     public String SearchExplanByWordEng(String inputText) throws SQLException {
         String query ="SELECT * FROM `tbl_edict` WHERE word='"+inputText+"'";
         ResultSet data = DBConnect.getInstance().getData(query);
@@ -54,8 +64,7 @@ public class ControllerDB implements ActionListener
         ResultSet data = DBConnect.getInstance().getData(query);
         //System.out.println("day la controller");
        // System.out.println(data.next());
-    return data;
-
+        return data;
     }
 
     @Override

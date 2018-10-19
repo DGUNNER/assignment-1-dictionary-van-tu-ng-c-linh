@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+import API.Translate;
 import DataBase.DBConnect;
 import ScrollableJPopupmenu.XJPopupMenu;
 import view.Card.CardItem;
@@ -18,6 +19,7 @@ import view.Card.ListCard;
 import view.ExplanWord;
 import view.MessgeEditAndFavorites;
 import view.TopBar;
+import view.exam.ExamSelect;
 import view.mainFrame;
 import view.search.CollectionContent;
 import view.search.CollectionResult;
@@ -104,8 +106,15 @@ public class Controller implements ActionListener{
                     }
                     else {
                         System.out.println("éo thấy");
+                        String trans =Translate.Translate(dataInput);
+                        if(trans.toLowerCase().equals(dataInput)){
+                            JOptionPane.showMessageDialog(mainFrame.getInstance(),
+                                    "Không Tìm Thấy Dữ Liệu Phù Hợp\n","Thông Báo",
+                                    JOptionPane.WARNING_MESSAGE);
+                        }else
                         JOptionPane.showMessageDialog(mainFrame.getInstance(),
-                                "Không Tìm Thấy Dữ Liệu Phù Hợp","Thông Báo",
+                                "Không Tìm Thấy Dữ Liệu Trong DataBase Phù Hợp\n" +
+                                        "Kết Quả Từ GoogleTranslate \n"+dataInput+":"+trans,"Thông Báo",
                                 JOptionPane.WARNING_MESSAGE);
 
                     }
@@ -142,6 +151,7 @@ public class Controller implements ActionListener{
             CardLayout cardLayout = null;
 
             try {
+                //ListCard.getInstance().loadListCard();
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "ListCard");
             } catch (SQLException e1) {
@@ -154,6 +164,7 @@ public class Controller implements ActionListener{
             CardLayout cardLayout = null;
 
             try {
+
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "learn");
             } catch (SQLException e1) {
@@ -166,6 +177,7 @@ public class Controller implements ActionListener{
             CardLayout cardLayout = null;
 
             try {
+                ExamSelect.getInstance().loaddata();
                 cardLayout = (CardLayout) view.ContentAreaMenuMain.getInstance().getLayout();
                 cardLayout.show(view.ContentAreaMenuMain.getInstance(), "exam");
             } catch (SQLException e1) {
@@ -220,9 +232,21 @@ public class Controller implements ActionListener{
                 }
             }*/
         } else if (command.startsWith("addWorditemToFavorits#", 0)) {
-
-
-
+            try
+            {
+                for(int i =0; i < CollectionContent.getInstance().panel.getComponentCount();i++) {
+                    if (command.equals("addWorditemToFavorits#" + i))
+                    {
+                        String inputWord =((WordItem)(CollectionContent.getInstance().panel.getComponent(i))).getTextValue();
+                        String res =Translate.Translate(inputWord);
+                        ListCard.getInstance().panel.add(new CardItem(inputWord,res,ListCard.getInstance().panel.getComponentCount()));
+                        ListCard.getInstance().reloadListCard();
+                    }
+                }
+            }catch (SQLException | IOException er)
+            {
+                System.out.println(er);
+            }
             /*for (int i = 0; i < Dictionary.getInstance().size(); i++) {
                 if (command.equals("addWorditemToFavorits##" + i)) {
                     System.out.println("addWorditemToFavorits# " + i);

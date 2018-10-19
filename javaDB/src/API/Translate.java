@@ -22,7 +22,7 @@ public class Translate {
             System.out.println(GoogleTranslate.translate("ha", "how are you"));*/
 
             //English to Yoruba
-            return GoogleTranslate.translate("ja", data);
+            return GoogleTranslate.translate("vi", data);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -31,6 +31,6 @@ public class Translate {
     }
 
     public static void main(String[] args) {
-        //System.out.println(Translate.Translate("ăn"));
+        //System.out.println(Translate.Translate(""));
     }
 }

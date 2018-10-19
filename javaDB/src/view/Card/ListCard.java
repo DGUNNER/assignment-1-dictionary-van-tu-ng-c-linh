@@ -32,9 +32,10 @@ public class ListCard extends JPanel{
         int i =0;
         while(data.next())
         {
+            System.out.println(data.getString("explan"));
             CardItem tmp = new CardItem(
                     data.getString("word"),
-                    data.getString("mean"),
+                    data.getString("explan"),
                     i
             );
             if(i%2==0)
@@ -55,7 +56,9 @@ public class ListCard extends JPanel{
        }*/
         
     }
-
+    public void exportToDataBase() throws SQLException {
+        ControllerDB.getInstance().exportCardToDataBase();
+    }
     private static ListCard instance = null;
     public static ListCard getInstance() throws SQLException {
         if(instance == null)

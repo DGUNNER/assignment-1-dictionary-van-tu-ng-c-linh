@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="javaDB">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/mysql-connector-java-5.1.40-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mysql-connector-java-5.1.40.zip!/" />
+      <root url="jar://$PROJECT_DIR$/java-google-speech-api-V2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jlayer-1.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

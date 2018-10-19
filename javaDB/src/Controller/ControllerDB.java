@@ -1,6 +1,8 @@
 package Controller;
 
 import DataBase.DBConnect;
+import view.Card.CardItem;
+import view.Card.ListCard;
 import view.search.CollectionContent;
 
 import javax.swing.*;
@@ -35,6 +37,28 @@ public class ControllerDB implements ActionListener
         String query="SELECT * FROM `favorites_word`";
         ResultSet res = DBConnect.getInstance().getData(query);
         return res;
+    }
+    public void exportCardToDataBase() throws SQLException {
+        //xóa toàn bộ
+        String query ="DELETE FROM `favorites_word`";
+        DBConnect.getInstance().deleteData(query);
+        //insert vô
+        String query2;
+
+        JPanel data = ListCard.getInstance().panel;
+        for(int i = 0;i < data.getComponentCount();i++)
+        {
+            query2 ="INSERT INTO `favorites_word`(`id`, `word`, `explan`, `mean`) VALUES (null,'"+
+                    ((CardItem)(data.getComponent(i))).getTextBtnAnh()
+                    +"','"+
+                    ((CardItem)(data.getComponent(i))).getTextBtnViet()
+                    +"','"+
+                    ((CardItem)(data.getComponent(i))).getTextBtnViet()+"')";
+            DBConnect.getInstance().insertData(query2);
+
+
+        }
+
     }
 
     public void insertToHitory(String word, int index) throws SQLException {

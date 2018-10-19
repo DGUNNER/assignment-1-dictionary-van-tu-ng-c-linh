@@ -28,7 +28,7 @@ public class ExamSelectTop  extends JPanel {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(0, 180));
         setBackground(new Color(19, 39, 68));
-
+        Text.setFont( new Font("Monaco", Font.PLAIN, 22));
         Text.setForeground(Color.WHITE);
         Text.setHorizontalAlignment(SwingConstants.CENTER);
         add(Text,BorderLayout.CENTER);

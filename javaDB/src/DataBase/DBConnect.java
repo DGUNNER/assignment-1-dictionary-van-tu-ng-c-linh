@@ -21,8 +21,10 @@ public class DBConnect {
     public DBConnect(String DataBaseName)
     {
         try{
+
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+DataBaseName,"root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+DataBaseName+"?useUnicode=true&characterEncoding=utf-8",
+                    "root","");
             //st= con.createStatement();
             //con.close();
         }catch (Exception e)

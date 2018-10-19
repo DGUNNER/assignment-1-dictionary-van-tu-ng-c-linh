@@ -83,7 +83,7 @@ public class CollectionContent extends JPanel{
         int index=0;
         while(data.next())
         {
-            //System.out.println("a");
+
             String a = data.getString("word");
             System.out.println(a);
             AddItem(data.getString("word"),index);

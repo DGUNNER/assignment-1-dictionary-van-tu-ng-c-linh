@@ -6,6 +6,7 @@
 package view;
 
 import DataBase.DBConnect;
+import view.Card.ListCard;
 import view.search.CollectionContent;
 
 import java.awt.event.WindowAdapter;
@@ -32,6 +33,8 @@ public class View {
                 System.out.println("WindowClosingDemo.windowClosing");
                 try {
                     CollectionContent.getInstance().updateDatabase();
+                    ListCard.getInstance().exportToDataBase();
+                    DBConnect.getInstance().closeConnection();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
